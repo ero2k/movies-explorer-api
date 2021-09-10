@@ -1,0 +1,42 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Diplom backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "npx eslint .",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ero2k/movies-explorer-api.git"
+  },
+  "author": "Denis Shchetinkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ero2k/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/ero2k/movies-explorer-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "celebrate": "^15.0.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-winston": "^4.2.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.5",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "jest": "^27.1.1",
+    "nodemon": "^2.0.12"
+  }
+}
