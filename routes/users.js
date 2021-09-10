@@ -7,7 +7,7 @@ const {
 } = require('../controllers/users');
 
 // const auth = require('../middlewares/auth');
-
+router.post('/signup', )
 router.get('/users/me', getCurrentUser)
 router.patch('/users/me', updateProfile)
 

@@ -10,7 +10,7 @@ const {
 
 router.get('/movies',getSavedMovies )
 router.post('/movies',createMoviesLocalDB )
-router.delete('/movies/movieId ',removeSavedMovie)
+router.delete('/movies/:movieId', removeSavedMovie)
 
 
 module.exports = router;

@@ -24,7 +24,10 @@ module.exports.createMoviesLocalDB = (req, res, next) => {
 }
 
 module.exports.removeSavedMovie = (req, res, next) => {
+  console.log(req)
   const movieId = req.params.movieId;
+  console.log(movieId)
+
   if (!mongoose.Types.ObjectId.isValid(movieId)) {
     throw new InvalidDataFormat('Неверный формат данных');
   } else {
@@ -51,5 +54,3 @@ module.exports.removeSavedMovie = (req, res, next) => {
       });
   }
 };
-
-

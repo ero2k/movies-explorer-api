@@ -1,8 +1,36 @@
+##Регистрация пользователя
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{"name":  "Олег",
+"email": "testtest.ru",
+  "password": "testtest"
+}
+
+###
+
+##Авторизация
+POST http://localhost:3000/signin
+Content-Type: application/json
+
+{
+  "name":  "Олег",
+  "email": "test@test.ru",
+  "password": "testtest"
+}
+
+
+
+
+###Удаление карточки
+DELETE http://localhost:3000/movies/613aeb2050eb0d4a0111c985
+Content-Type: application/json
+
+###Добавление карточки
 POST http://localhost:3000/movies
 Content-Type: application/json
 
 {
-
         "id": 1,
         "nameRU": "«Роллинг Стоунз» в изгнании",
         "nameEN": "Stones in Exile",
@@ -12,12 +40,13 @@ Content-Type: application/json
         "duration": 61,
         "description": "В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты и сверхуспешные концертные туры, была разорена. Виной всему — бездарный менеджмент и драконовское налогообложение в Британии. Тогда музыканты приняли не самое простое для себя решение: летом 1971 года после выхода альбома «Stiсky Fingers» они отправились на юг Франции записывать новую пластинку. Именно там, на Лазурном Берегу, в арендованном Китом Ричардсом подвале виллы Неллькот родился сборник «Exile on Main St.», который стал лучшим альбомом легендарной группы.",
         "trailerLink": "https://www.youtube.com/watch?v=UXcqcdYABFw",
-        "image": "/uploads/small_stones_in_exile_b2f1b8f4b7.jpeg",
-  "thumbnail": "/uploads/thumbnail_stones_in_exile_b2f1b8f4b7.jpeg",
-  "trailer": 
+        "image": "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  "thumbnail": "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  "trailer": "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
 }
-###
+###Запрос всех сохраненных фильмов
 GET http://localhost:3000/movies
 Accept: application/json
 
 ###
+

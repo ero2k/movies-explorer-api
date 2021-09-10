@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     required: true,
   },
   nameRU: {

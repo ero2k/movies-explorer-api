@@ -49,3 +49,27 @@ module.exports.updateProfile = (req, res, next) => {
       next(err);
     });
 };
+
+module.exports.createUser = (req, res, next) => {
+  return  bcrypt.hash(req.body.password, 10)
+    .then((hash) => User.create({ ...req.body, password: hash }))
+    .then(() => res.status(201).send({ message: 'Пользователь зарегистрирован' }))
+    .catch((err) => {
+      console.log(err.name)
+      if (err.name === 'MongoServerError' && err.code === 11000) {
+        next(new Conflict('Такой пользователь уже зарегистрирован'));
+      }
+      next(new InvalidDataFormat('Неверный формат данных 3'));
+    });
+};
+
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'allcatsarebeautiful', { expiresIn: '7d' });
+
+      return res.status(200).send({ message: 'Авторизация успешна', token });
+    })
+    .catch((err) => next(err));
+};

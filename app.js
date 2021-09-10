@@ -4,8 +4,9 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const routesUser = require('./routes/users');
-const routesMovie = require('./routes/movies');
+const router = require('./routes/index')
+// const routesUser = require('./routes/users');
+// const routesMovie = require('./routes/movies');
 const NotFound = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
@@ -26,12 +27,14 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 app.use(bodyParser.json());
 app.use(requestLogger);
 
-app.use(routesUser);
-app.use(routesMovie);
+app.use(router)
 
-app.use(() => {
-  throw new NotFound('Страница не найдена !');
-});
+// app.use(routesUser);
+// app.use(routesMovie);
+
+// app.use(() => {
+//   throw new NotFound('Страница не найдена !');
+// });
 
 app.use(errorLogger);
 
