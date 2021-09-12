@@ -9,13 +9,14 @@ const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, MONGO_URL= 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 const app = express();
+console.log(MONGO_URL)
 
 app.use(cors);
 app.use(helmet());
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
