@@ -1,14 +1,11 @@
 const router = require('express').Router();
-const validator = require('validator');
-const { celebrate, Joi } = require('celebrate');
-const InvalidDataFormat = require('../errors/invalid-data-format');
 const {
-  updateProfile, getCurrentUser
+  updateProfile, getCurrentUser, signout,
 } = require('../controllers/users');
+const { validateUpdateProfile } = require('../middlewares/validate');
 
-// const auth = require('../middlewares/auth');
-router.post('/signup', )
-router.get('/users/me', getCurrentUser)
-router.patch('/users/me', updateProfile)
+router.get('/users/me', getCurrentUser);
+router.patch('/users/me', validateUpdateProfile, updateProfile);
+router.get('/signout', signout);
 
 module.exports = router;

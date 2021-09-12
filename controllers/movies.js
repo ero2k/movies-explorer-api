@@ -1,32 +1,30 @@
+const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-err');
 const InvalidDataFormat = require('../errors/invalid-data-format');
 const Forbidden = require('../errors/forbidden');
 
-const mongoose = require('mongoose');
-
-
 module.exports.getSavedMovies = (req, res, next) => {
-Movie.find({})
-  .then((movies) => res.status(200).send(movies))
-  .catch(next)
-}
+  Movie.find({})
+    .then((movies) => res.status(200).send(movies))
+    .catch(next);
+};
 
 module.exports.createMoviesLocalDB = (req, res, next) => {
-  Movie.create({...req.body, owner: '60a676875e223d249f6ca728', movieId: req.body.id})
+  console.log(req);
+  Movie.create({ ...req.body, owner: req.user._id, movieId: req.body.id })
     .then((movie) => res.status(201).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InvalidDataFormat('Неверный формат данных'));
       }
       next(err);
-    })
-}
+    });
+};
 
 module.exports.removeSavedMovie = (req, res, next) => {
-  console.log(req)
-  const movieId = req.params.movieId;
-  console.log(movieId)
+  console.log(req);
+  const { movieId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(movieId)) {
     throw new InvalidDataFormat('Неверный формат данных');
@@ -48,7 +46,7 @@ module.exports.removeSavedMovie = (req, res, next) => {
       })
       .catch((err) => {
         if (err.name === 'CastError') {
-         return next(new InvalidDataFormat('Неверный формат данных'));
+          return next(new InvalidDataFormat('Неверный формат данных'));
         }
         return next(err);
       });

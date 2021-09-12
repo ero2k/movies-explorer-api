@@ -1,16 +1,11 @@
 const router = require('express').Router();
-const validator = require('validator');
-const { celebrate, Joi } = require('celebrate');
-const InvalidDataFormat = require('../errors/invalid-data-format');
 const {
-  createMoviesLocalDB, getSavedMovies, removeSavedMovie
+  createMoviesLocalDB, getSavedMovies, removeSavedMovie,
 } = require('../controllers/movies');
+const { validateCreateMovie, validateRemoveMovie } = require('../middlewares/validate');
 
-// const auth = require('../middlewares/auth');
-
-router.get('/movies',getSavedMovies )
-router.post('/movies',createMoviesLocalDB )
-router.delete('/movies/:movieId', removeSavedMovie)
-
+router.get('/movies', getSavedMovies);
+router.post('/movies', validateCreateMovie, createMoviesLocalDB);
+router.delete('/movies/:movieId', validateRemoveMovie, removeSavedMovie);
 
 module.exports = router;

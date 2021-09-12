@@ -25,12 +25,9 @@ const userSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    validate: {
-      validator: (value) => validator.isURL(value, { require_protocol: true }),
-      message: 'Неверный формат данных',
-    },
+
   },
-  trailer : {
+  trailer: {
     type: String,
     required: true,
     validate: {
@@ -38,7 +35,7 @@ const userSchema = new mongoose.Schema({
       message: 'Неверный формат данных',
     },
   },
-  thumbnail : {
+  thumbnail: {
     type: String,
     required: true,
     validate: {
@@ -50,7 +47,6 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'user',
-    default: 0,
   },
   movieId: {
     type: Number,
@@ -65,6 +61,5 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
-
 
 module.exports = mongoose.model('movie', userSchema);
