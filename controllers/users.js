@@ -57,7 +57,6 @@ module.exports.createUser = (req, res, next) => bcrypt.hash(req.body.password, 1
   .then((hash) => User.create({ ...req.body, password: hash }))
   .then(() => res.status(201).send({ message: 'Пользователь зарегистрирован' }))
   .catch((err) => {
-    console.log(err);
     if (err.name === 'MongoServerError' && err.code === 11000) {
       next(new Conflict('Такой пользователь уже зарегистрирован'));
     }

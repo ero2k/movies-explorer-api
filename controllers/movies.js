@@ -11,7 +11,6 @@ module.exports.getSavedMovies = (req, res, next) => {
 };
 
 module.exports.createMoviesLocalDB = (req, res, next) => {
-  console.log(req);
   Movie.create({ ...req.body, owner: req.user._id, movieId: req.body.id })
     .then((movie) => res.status(201).send(movie))
     .catch((err) => {
@@ -23,7 +22,6 @@ module.exports.createMoviesLocalDB = (req, res, next) => {
 };
 
 module.exports.removeSavedMovie = (req, res, next) => {
-  console.log(req);
   const { movieId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(movieId)) {

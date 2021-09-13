@@ -19,8 +19,7 @@ router.use(userRouter);
 router.use(movieRouter);
 
 router.use((req, res, next) => {
-  console.log(req);
-  next(new NotFoundError('Страница не найдена !1'));
+  next(new NotFoundError('Страница не найдена'));
 });
 
 module.exports = router;
