@@ -1,6 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const InvalidDataFormat = require('../errors/invalid-data-format');
+const {BAD_DATA_MSG} = require('../utils/constants')
 
 module.exports.validateSignup = celebrate({
   body: Joi.object().keys({
@@ -33,23 +34,23 @@ module.exports.validateCreateMovie = celebrate({
     description: Joi.string().required(),
     image: (link) => {
       if (!validator.isURL(link, { require_protocol: true })) {
-        throw new InvalidDataFormat('Неверный формат данных');
+        throw new InvalidDataFormat(BAD_DATA_MSG);
       }
       return link;
     },
     trailer: (link) => {
       if (!validator.isURL(link, { require_protocol: true })) {
-        throw new InvalidDataFormat('Неверный формат данных');
+        throw new InvalidDataFormat(BAD_DATA_MSG);
       }
       return link;
     },
     thumbnail: (link) => {
       if (!validator.isURL(link, { require_protocol: true })) {
-        throw new InvalidDataFormat('Неверный формат данных');
+        throw new InvalidDataFormat(BAD_DATA_MSG);
       }
       return link;
     },
-    id: Joi.number().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

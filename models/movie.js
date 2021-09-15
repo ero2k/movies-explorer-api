@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const {BAD_DATA_MSG} = require('../utils/constants')
 
 const userSchema = new mongoose.Schema({
   country: {
@@ -32,7 +33,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value, { require_protocol: true }),
-      message: 'Неверный формат данных',
+      message: BAD_DATA_MSG,
     },
   },
   thumbnail: {
@@ -40,7 +41,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value, { require_protocol: true }),
-      message: 'Неверный формат данных',
+      message: BAD_DATA_MSG,
     },
   },
   owner: {

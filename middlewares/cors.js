@@ -1,10 +1,8 @@
-const allowedCors = [
-  'https://mesto.shchetinkin.nomoredomains.club',
-  'http://mesto.shchetinkin.nomoredomains.club',
-  'http://localhost:3000',
-];
+const {ALLOWED_CORS, DEFAULT_ALLOWED_METHODS} = require('../utils/constants')
 
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+const allowedCors = ALLOWED_CORS;
+
+
 
 module.exports = (req, res, next) => {
   const { origin } = req.headers;
@@ -20,7 +18,6 @@ module.exports = (req, res, next) => {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
 
-    // return res.end();
   }
 
   next();

@@ -3,9 +3,14 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
+const {JWT_SECRET_DEV} = require('../utils/constants')
 const NotFoundError = require('../errors/not-found-err');
 const InvalidDataFormat = require('../errors/invalid-data-format');
 const Conflict = require('../errors/conflict');
+const {VALID_ERROR, BAD_DATA_MSG, CAST_ERROR, USER_NOT_FOUND_MSG, MONGO_SERVER_ERROR, DUPLICATE_KEY, EMAIL_IS_ALREADY_MSG,
+  USER_IS_REGISTERED_MSG, AUTHORIZATION_IS_SUCCESSFUL, TOKEN_REMOVE_MSG
+} = require('../utils/constants')
+
 
 const opt = {
   new: true,
@@ -19,20 +24,21 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (user) {
         return res.status(200).send(user);
       }
-      throw new NotFoundError('Запрашиваемый пользователь не найден');
+      throw new NotFoundError(USER_NOT_FOUND_MSG);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new InvalidDataFormat('Неверный формат данных'));
+      if (err.name === CAST_ERROR) {
+        next(new InvalidDataFormat(BAD_DATA_MSG));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
 module.exports.updateProfile = (req, res, next) => {
   const user = req.user._id;
   if (!user) {
-    throw new InvalidDataFormat('Неверный формат данных');
+    throw new InvalidDataFormat(BAD_DATA_MSG);
   }
 
   return User.findByIdAndUpdate({ _id: user }, { ...req.body }, opt)
@@ -40,43 +46,45 @@ module.exports.updateProfile = (req, res, next) => {
       if (user) {
         return res.status(200).send(data);
       }
-      throw new NotFoundError('Запрашиваемый пользователь не найден');
+      throw new NotFoundError(USER_NOT_FOUND_MSG);
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new InvalidDataFormat('Неверный формат данных'));
+      if (err.name === CAST_ERROR || err.name === VALID_ERROR) {
+        next(new InvalidDataFormat(BAD_DATA_MSG));
       }
-      if (err.name === 'MongoServerError' && err.codeName === 'DuplicateKey') {
-        next(new Conflict('Такой email уже зарегистрирован в системе'));
+      else if (err.name === MONGO_SERVER_ERROR && err.codeName === DUPLICATE_KEY) {
+        next(new Conflict(EMAIL_IS_ALREADY_MSG));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
 module.exports.createUser = (req, res, next) => bcrypt.hash(req.body.password, 10)
   .then((hash) => User.create({ ...req.body, password: hash }))
-  .then(() => res.status(201).send({ message: 'Пользователь зарегистрирован' }))
+  .then(() => res.status(201).send({ message: USER_IS_REGISTERED_MSG }))
   .catch((err) => {
-    if (err.name === 'MongoServerError' && err.code === 11000) {
-      next(new Conflict('Такой пользователь уже зарегистрирован'));
+    if (err.name === MONGO_SERVER_ERROR && err.code === 11000) {
+      next(new Conflict(EMAIL_IS_ALREADY_MSG));
+    } else {
+      next(new InvalidDataFormat(BAD_DATA_MSG));
     }
-    next(new InvalidDataFormat('Неверный формат данных'));
   });
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'allcatsarebeautiful', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV, { expiresIn: '7d' });
       return res.cookie('jwt', token, {
         maxAge: 3600000,
         httpOnly: true,
-      }).status(202).send({ message: 'Авторизация успешна' });
+      }).status(202).send({ message: AUTHORIZATION_IS_SUCCESSFUL });
     })
     .catch((err) => next(err));
 };
 
 module.exports.signout = (req, res) => {
   res.clearCookie('jwt');
-  return res.status(200).send({ message: 'Токен удален' });
+  return res.status(200).send({ message: TOKEN_REMOVE_MSG });
 };

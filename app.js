@@ -8,12 +8,14 @@ const cookieParser = require('cookie-parser');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const {MONGO_URL = 'mongodb://localhost:27017/moviesdb', PORT = 3000, INTERNAL_SERVER_ERROR} = require('./utils/constants')
+const rateLimiter = require('./middlewares/rateLimit');
 
-const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 const app = express();
 
 app.use(cors);
 app.use(helmet());
+app.use(rateLimiter);
 
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
@@ -35,7 +37,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode)
     .send({
       message: statusCode === 500
-        ? 'На сервере произошла ошибка'
+        ? INTERNAL_SERVER_ERROR
         : message,
     });
 
