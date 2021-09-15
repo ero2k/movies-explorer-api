@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
-const {MONGO_URL = 'mongodb://localhost:27017/moviesdb', PORT = 3000, INTERNAL_SERVER_ERROR} = require('./utils/constants')
+const { MONGO_URL = 'mongodb://localhost:27017/moviesdb', PORT = 3000, INTERNAL_SERVER_ERROR } = require('./utils/constants');
 const rateLimiter = require('./middlewares/rateLimit');
 
 const app = express();

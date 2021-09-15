@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const {BAD_DATA_MSG} = require('../utils/constants')
+const { BAD_DATA_MSG } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   country: {

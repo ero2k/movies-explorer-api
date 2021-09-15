@@ -1,7 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const InvalidDataFormat = require('../errors/invalid-data-format');
-const {BAD_DATA_MSG} = require('../utils/constants')
+const { BAD_DATA_MSG } = require('../utils/constants');
 
 module.exports.validateSignup = celebrate({
   body: Joi.object().keys({

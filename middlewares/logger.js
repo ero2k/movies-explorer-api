@@ -1,6 +1,6 @@
 const winston = require('winston');
 const expressWinston = require('express-winston');
-const {NAME_REQUEST_LOG, NAME_ERROR_LOG} = require('../utils/constants')
+const { NAME_REQUEST_LOG, NAME_ERROR_LOG } = require('../utils/constants');
 
 const requestLogger = expressWinston.logger({
   transports: [

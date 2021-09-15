@@ -3,14 +3,15 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-const {JWT_SECRET_DEV} = require('../utils/constants')
+const { JWT_SECRET_DEV } = require('../utils/constants');
 const NotFoundError = require('../errors/not-found-err');
 const InvalidDataFormat = require('../errors/invalid-data-format');
 const Conflict = require('../errors/conflict');
-const {VALID_ERROR, BAD_DATA_MSG, CAST_ERROR, USER_NOT_FOUND_MSG, MONGO_SERVER_ERROR, DUPLICATE_KEY, EMAIL_IS_ALREADY_MSG,
-  USER_IS_REGISTERED_MSG, AUTHORIZATION_IS_SUCCESSFUL, TOKEN_REMOVE_MSG
-} = require('../utils/constants')
-
+const {
+  VALID_ERROR, BAD_DATA_MSG, CAST_ERROR, USER_NOT_FOUND_MSG, MONGO_SERVER_ERROR,
+  DUPLICATE_KEY, EMAIL_IS_ALREADY_MSG, USER_IS_REGISTERED_MSG, AUTHORIZATION_IS_SUCCESSFUL,
+  TOKEN_REMOVE_MSG,
+} = require('../utils/constants');
 
 const opt = {
   new: true,
@@ -51,8 +52,7 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === CAST_ERROR || err.name === VALID_ERROR) {
         next(new InvalidDataFormat(BAD_DATA_MSG));
-      }
-      else if (err.name === MONGO_SERVER_ERROR && err.codeName === DUPLICATE_KEY) {
+      } else if (err.name === MONGO_SERVER_ERROR && err.codeName === DUPLICATE_KEY) {
         next(new Conflict(EMAIL_IS_ALREADY_MSG));
       } else {
         next(err);
