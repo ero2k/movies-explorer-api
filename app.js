@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cors);
 app.use(helmet());
-app.use(rateLimiter);
+
 
 mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
@@ -26,6 +26,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(requestLogger);
 
+app.use(rateLimiter);
 app.use(router);
 
 app.use(errorLogger);
