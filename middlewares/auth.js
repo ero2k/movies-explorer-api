@@ -5,9 +5,16 @@ const { JWT_SECRET_DEV, NEED_AUTHORIZED_MSG } = require('../utils/constants');
 const Unauthorized = require('../errors/unauthorized');
 
 module.exports = (req, res, next) => {
-  console.log(req);
 
-  const token = req.cookies.jwt;
+  const { authorization } = req.headers;
+
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    throw new Unauthorized('Необходима авторизация');
+  }
+
+  const token = authorization.replace('Bearer ', '');
+
+  // const token = req.cookies.jwt;
   if (!token) {
     throw new Unauthorized(NEED_AUTHORIZED_MSG);
   }

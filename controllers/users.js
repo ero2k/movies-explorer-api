@@ -62,7 +62,12 @@ module.exports.updateProfile = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => bcrypt.hash(req.body.password, 10)
   .then((hash) => User.create({ ...req.body, password: hash }))
-  .then(() => res.status(201).send({ message: USER_IS_REGISTERED_MSG }))
+  .then((data) => {
+    const token = jwt.sign({ _id: data._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV, { expiresIn: '7d' });
+    return res.cookie('jwt', token, {
+      maxAge: 3600000,
+      httpOnly: true,
+    }).status(201).send({message: USER_IS_REGISTERED_MSG, token })})
   .catch((err) => {
     if (err.name === MONGO_SERVER_ERROR && err.code === 11000) {
       next(new Conflict(EMAIL_IS_ALREADY_MSG));
