@@ -3,8 +3,13 @@ const NotFoundError = require('../errors/not-found-err');
 const InvalidDataFormat = require('../errors/invalid-data-format');
 const Forbidden = require('../errors/forbidden');
 const {
-  NOT_FOUND_MOVIE_MSG, VALID_ERROR, BAD_DATA_MSG, OTHER_PEOPLES_MOVIES_MSG,
-  REMOVE_MOVIE_MSG, MOVIE_NOT_FOUND_MSG, CAST_ERROR,
+  NOT_FOUND_MOVIE_MSG,
+  VALID_ERROR,
+  BAD_DATA_MSG,
+  OTHER_PEOPLES_MOVIES_MSG,
+  REMOVE_MOVIE_MSG,
+  MOVIE_NOT_FOUND_MSG,
+  CAST_ERROR,
 } = require('../utils/constants');
 
 module.exports.getSavedMovies = (req, res, next) => {
@@ -14,7 +19,13 @@ module.exports.getSavedMovies = (req, res, next) => {
 };
 
 module.exports.createMoviesLocalDB = (req, res, next) => {
-  Movie.create({ ...req.body, owner: req.user._id })
+
+  console.log(req.user)
+
+  Movie.create({
+      ...req.body,
+      owner: req.user._id
+    })
     .then((movie) => res.status(201).send(movie))
     .catch((err) => {
       if (err.name === VALID_ERROR) {
@@ -26,7 +37,9 @@ module.exports.createMoviesLocalDB = (req, res, next) => {
 };
 
 module.exports.removeSavedMovie = (req, res, next) => {
-  const { movieId } = req.params;
+  const {
+    movieId
+  } = req.params;
 
   Movie.findById(movieId)
     .then((movie) => {
@@ -38,7 +51,9 @@ module.exports.removeSavedMovie = (req, res, next) => {
       return Movie.findByIdAndRemove(movieId)
         .then((movieToRemove) => {
           if (movieToRemove) {
-            return res.status(200).send({ message: REMOVE_MOVIE_MSG });
+            return res.status(200).send({
+              message: REMOVE_MOVIE_MSG
+            });
           }
           throw new NotFoundError(MOVIE_NOT_FOUND_MSG);
         });
