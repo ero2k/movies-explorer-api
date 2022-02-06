@@ -20,7 +20,7 @@ module.exports.getSavedMovies = (req, res, next) => {
 
 module.exports.createMoviesLocalDB = (req, res, next) => {
 
-  console.log(req.user)
+  console.log(req.user, req.body)
 
   Movie.create({
       ...req.body,
