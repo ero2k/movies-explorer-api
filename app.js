@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const router = require('./routes/index');
 const {
   ALLOWED_CORS
-} = require('../utils/constants');
+} = require('./utils/constants');
 const allowedCors = ALLOWED_CORS;
 const {
   requestLogger,
