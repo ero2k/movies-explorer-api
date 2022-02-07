@@ -27,7 +27,8 @@ const DUPLICATE_KEY = 'DuplicateKey';
 const ALLOWED_CORS = [
   'https://mesto.shchetinkin.nomoredomains.club',
   'http://mesto.shchetinkin.nomoredomains.club',
-  'localhost:3000',
+  'https://localhost:3000',
+  'http://localhost:3000',
 ];
 
 // Methods
