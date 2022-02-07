@@ -1,5 +1,5 @@
 const MONGO_URL = 'mongodb://localhost:27017/moviesdb';
-const PORT = '3001';
+const PORT = '3000';
 const JWT_SECRET_DEV = 'allcatsarebeautiful';
 
 // Error message
@@ -27,7 +27,8 @@ const DUPLICATE_KEY = 'DuplicateKey';
 const ALLOWED_CORS = [
   'https://mesto.shchetinkin.nomoredomains.club',
   'http://mesto.shchetinkin.nomoredomains.club',
-  'localhost:3000',
+  'https://localhost:3000',
+  'http://localhost:3000',
 ];
 
 // Methods
