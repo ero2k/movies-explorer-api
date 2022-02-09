@@ -13,8 +13,7 @@ const {
 } = require('../utils/constants');
 
 module.exports.getSavedMovies = (req, res, next) => {
-  Movie.find({})
-  .populate('owner')
+  Movie.findById(req.user._id)
     .then((movies) => res.status(200).send(movies))
     .catch(next);
 };
