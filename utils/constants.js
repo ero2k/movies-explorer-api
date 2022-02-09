@@ -1,5 +1,5 @@
 const MONGO_URL = 'mongodb://localhost:27017/moviesdb';
-const PORT = '3000';
+const PORT = '3001';
 const JWT_SECRET_DEV = 'allcatsarebeautiful';
 
 // Error message

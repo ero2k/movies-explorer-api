@@ -13,19 +13,24 @@ const {
 } = require('../utils/constants');
 
 module.exports.getSavedMovies = (req, res, next) => {
-  Movie.findById(req.user._id)
-    .then((movies) => res.status(200).send(movies))
+  console.log(req.user._id)
+
+  Movie.find({owner: req.user._id})
+    // .populate('owner')
+    .then((movies) => {
+      res.status(200).send(movies)
+    })
     .catch(next);
 };
 
 module.exports.createMoviesLocalDB = (req, res, next) => {
 
-  console.log(req.user, req.body)
+  // console.log(req.user, req.body)
 
   Movie.create({
-      ...req.body,
-      owner: req.user._id
-    })
+    ...req.body,
+    owner: req.user._id
+  })
     .then((movie) => res.status(201).send(movie))
     .catch((err) => {
       if (err.name === VALID_ERROR) {
