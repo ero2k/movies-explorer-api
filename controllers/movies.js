@@ -14,6 +14,7 @@ const {
 
 module.exports.getSavedMovies = (req, res, next) => {
   Movie.find({})
+  .populate('owner')
     .then((movies) => res.status(200).send(movies))
     .catch(next);
 };
